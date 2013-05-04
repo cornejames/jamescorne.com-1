@@ -28,7 +28,7 @@
 	<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-<?php
+        <?php
 	/* Always have wp_head() just before the closing </head>
 	 * tag of your theme, or you will break many plugins, which
 	 * generally use this hook to add elements to <head> such
@@ -38,8 +38,13 @@
 ?>
 </head>
 <body <?php body_class(); ?>>
-	<!-- Start the main container -->
+	<!-- Start the main container -->        
+        <?php jamesc_before_container(); ?>
+        
 	<div id="container" class="container" role="document">
+            
+                <?php jamesc_begin_container(); ?>
+            
 		<?php
 			/**
 			 * Include the Foundation Top Bar
@@ -104,5 +109,12 @@
 					 */
 					get_template_part( 'custom-header' );
 				?>
+                            
+                            
 			</header>
+                    
+                     <?php jamesc_after_header(); ?>
+                    
 		</div><!-- // header.php -->
+                
+            <?php jamesc_before_content(); ?>

@@ -2,5 +2,60 @@
  * Here goes all the JS Code you need in your child theme buddy!
  */
 (function($) {
-    // here goes your custom code
+    //Init stuff and helper functions
+    var screenRes = $(window).width();
+    var state     = $.cookie('viewingContent');
+    //If viewing content, always hide office at first.
+    if(state == 1) {
+        $('#zoom-wrap').hide();
+    }
+    //Setup Screen Context variables
+    if(screenRes > 1024) {
+        $.cookie('deviceContext', 'desktop');
+    } else if( screenRes < 1025 && screenRes >480 ) {
+        $.cookie('deviceContext', 'tablet');
+    } else {
+        $.cookie('deviceContext', 'mobile');
+    }
+    //Helper to calculate the margins around the office image
+    function positionOffice() {
+      var vh = $(window).height();
+      var ih = $('#zoom-wrap .image img').outerHeight();
+      var zm = ( vh - ih ) / 2;
+      $('#zoom-wrap .image').css({ 'margin-top' : zm, 'margin-bottom' : zm });
+    }
+    
+    /**
+     * Position the office elements
+     */
+    
+    $(window).load(function() {
+      positionOffice();    
+    });
+        
+    $(window).resize(function() { 
+        positionOffice();
+    });
+    
+    
+    /**
+     * Toggle the Office
+     */
+    
+   $('.office-toggle a').click(function(){
+      //Is the user closing the office space?
+      var c = $(this).parent('li').hasClass('close');
+      //If so, set a cookie so that it doesn't reappear on the next page
+      if(c) {
+          $.cookie('viewingContent', 1);
+      } else {
+          //Else remove the cookie
+          $.removeCookie('viewingContent');
+      }
+      //Fade office in/out and reposition it
+      $('#zoom-wrap').fadeToggle( 'fast', 'swing', positionOffice() );
+      return false;
+   });
+   
+   
 }(jQuery));

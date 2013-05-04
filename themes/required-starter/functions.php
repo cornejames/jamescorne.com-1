@@ -16,6 +16,9 @@ function required_starter_themesetup() {
 
 	// Add support for custom backgrounds and overwrite the parent backgorund color
 	add_theme_support( 'custom-background', array( 'default-color' => 'f7f7f7' ) );
+        
+        //Add support for the JamesCorne.com implementation hooks
+        require_once('includes/hooks.php');
 
 }
 add_action( 'after_setup_theme', 'required_starter_themesetup' );
@@ -74,13 +77,42 @@ add_action( 'after_setup_theme', 'required_starter_after_parent_theme_setup', 11
  * @return void
  */
 function required_starter_scripts() {
-
+    
+    
+        /**
+         * Register and enqueue extra libraries
+         */
+         //jQUery
+        wp_enqueue_script('jquery');
+        
+        /**
+         * Add a global varibale for the ajaxurl to loggedout users
+         */
+    
+        wp_localize_script('jquery', 'jamesc', array('ajaxurl', admin_url('admin-ajax.php')));
+         
+        wp_register_script('zoomooz',
+                           get_stylesheet_directory_uri() . '/javascripts/zoomooz/jquery.zoomooz.js',
+                           array( 'jquery' ),
+                           required_get_theme_version( false ),
+                           true
+        );
+        
+        wp_enqueue_script('zoomooz');
+        
+        wp_register_script('jqcookie',
+                           get_stylesheet_directory_uri() . '/javascripts/jquery-cookie/jquery.cookie.js',
+                           array( 'jquery' ),
+                           required_get_theme_version( false ),
+                           true
+        );
+        
+        wp_enqueue_script('jqcookie');
+        
 	/**
 	 * Registers the child-theme.js
-	 *
-	 * Remove if you don't need this file,
-	 * it's empty by default.
-	 */
+	 */        
+    
 	wp_enqueue_script(
 		'child-theme-js',
 		get_stylesheet_directory_uri() . '/javascripts/child-theme.js',
@@ -150,3 +182,39 @@ function required_orbit_script_args( $defaults ) {
 	return wp_parse_args( $args, $defaults );
 }
 add_filter( 'req_orbit_script_args', 'required_orbit_script_args' );
+
+
+//Pseudo Code for fetching the office
+
+function theme_office() {
+    
+    $is_not_mobile = wpmd_is_notphone();
+    
+    if($is_not_mobile) {
+        get_office();
+    }
+}
+
+add_action('jamesc_begin_container', 'theme_office', 0);
+
+function get_office() {
+    print '<div style="background:#000; height:100%; overflow: hidden; position:fixed; z-index: 20;" class="zoomViewport" id="zoom-wrap">
+            <div style="position:absolute; top:0; left:0; width:11em; height:2em; line-height: 2em; padding: 0 1em; background-color:rgba(255,255,255,0.65);">
+                <ul>
+                    <li class="office-toggle close">
+                        <a href="#">View more Content</a>
+                    </li>
+                </ul>
+            </div>
+            <div style="width:80%; margin:0 auto;" style="position:relative;" class="zoomContainer image">
+                <div style="left:53%; top: 20%; position:absolute; height:135px; width:175px; background: rgba(255,255,255,0.05);" class="zoomTarget">
+                    &nbsp;
+                </div>
+                <div style="left:27%; top: 20%; position:absolute; height:137px; width:200px; background: rgba(255,255,255,0.05);" class="zoomTarget">
+                    &nbsp;
+                </div>
+                <img width="100%" src="/wp-content/themes/required-starter/images/office-rev3.jpg" />
+            </div>
+        </div>
+        ';
+}
