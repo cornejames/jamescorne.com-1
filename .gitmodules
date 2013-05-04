@@ -1,0 +1,3 @@
+[submodule "foundation"]
+      path = themes/required-foundation
+      url = git://github.com/wearerequired/required-foundation.git
