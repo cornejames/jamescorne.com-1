@@ -20,9 +20,9 @@
     //Helper to calculate the margins around the office image
     function positionOffice() {
       var vh = $(window).height();
-      var ih = $('#zoom-wrap .image img').outerHeight();
+      var ih = $('.office-bg').outerHeight();
       var zm = ( vh - ih ) / 2;
-      $('#zoom-wrap .image').css({ 'margin-top' : zm, 'margin-bottom' : zm });
+      $('.office-bg').css({ 'margin-top' : zm, 'margin-bottom' : zm });
     }
     
     /**
@@ -35,6 +35,14 @@
         
     $(window).resize(function() { 
         positionOffice();
+        if($(window).width()  < 1024 ) {
+       		$('#zoom-wrap').fadeOut('fast');
+       		$('.office-toggle').fadeOut('fast');
+       		$.cookie('viewingContent', 1);
+        }
+        if( $(window).width() > 1023 ) {
+        	$('.office-toggle').fadeIn('fast');
+        }
     });
     
     

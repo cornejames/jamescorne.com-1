@@ -198,23 +198,30 @@ function theme_office() {
 add_action('jamesc_begin_container', 'theme_office', 0);
 
 function get_office() {
-    print '<div style="background:#000; height:100%; overflow: hidden; position:fixed; z-index: 20;" class="zoomViewport" id="zoom-wrap">
-            <div style="position:absolute; top:0; left:0; width:11em; height:2em; line-height: 2em; padding: 0 1em; background-color:rgba(255,255,255,0.65);">
+
+    $bg   = wp_get_attachment_image_src( get_field( 'office_background_image', 'option' ), 'large' );
+    $tv   = wp_get_attachment_image_src( get_field( 'office_other_television_background', 'option' ), 'large'  );
+    $cork = wp_get_attachment_image_src( get_field( 'office_corkboard_background_image', 'option' ), 'large' );
+
+    print '<div style="background:#000; width:100%; height:100%; overflow: hidden; position:absolute; z-index: 20;" class="zoomContainer" id="zoom-wrap">
+            <div style="position:absolute; z-index:30; top:30px; left:0; width:11em; height:2em; line-height: 2em; padding: 0 1em; background-color:rgba(255,255,255,0.65);">
                 <ul>
                     <li class="office-toggle close">
                         <a href="#">View more Content</a>
                     </li>
                 </ul>
             </div>
-            <div style="width:80%; margin:0 auto;" style="position:relative;" class="zoomContainer image">
-                <div style="left:53%; top: 20%; position:absolute; height:135px; width:175px; background: rgba(255,255,255,0.05);" class="zoomTarget">
-                    &nbsp;
+                <div style="width:20%; left:20%; top: 28%; position:absolute; background: transparent" class="zoomTarget">
+                	<img style="width:100%; height:auto;" src="'. $tv[0] .'" />
                 </div>
-                <div style="left:27%; top: 20%; position:absolute; height:137px; width:200px; background: rgba(255,255,255,0.05);" class="zoomTarget">
-                    &nbsp;
+                <div id="a" style="width: 20%; left:57%; top: 32%; position:absolute;" class="zoomTarget">
+	              <div id="a1" class="cork-section zoomTarget level2">&nbsp;</div>
+                  <div id="a2" class="cork-section zoomTarget level2">&nbsp;</div>
+                  <div id="a3" class="cork-section zoomTarget level2">&nbsp;</div>
+                  <div id="a4" class="cork-section zoomTarget level2">&nbsp;</div>
+                  <img style="width:100%; height:auto;" src="'.$cork[0].'" />
                 </div>
-                <img width="100%" src="/wp-content/themes/required-starter/images/office-rev3.jpg" />
-            </div>
+           <img class="office-bg" width="100%" src="'. $bg[0] .'" />
         </div>
         ';
 }
